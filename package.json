@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "_args": [
     [
       {
@@ -84,12 +85,39 @@
   "optionalDependencies": {},
   "readme": "# recursive-readdir\r\n\r\n[![Build Status](https://travis-ci.org/jergason/recursive-readdir.svg?branch=master)](https://travis-ci.org/jergason/recursive-readdir)\r\n\r\nRecursively list all files in a directory and its subdirectories. It does not list the directories themselves.\r\n\r\nBecause it uses fs.readdir, which calls [readdir](http://linux.die.net/man/3/readdir) under the hood\r\non OS X and Linux, the order of files inside directories is [not guaranteed](http://stackoverflow.com/questions/8977441/does-readdir-guarantee-an-order).\r\n\r\n## Installation\r\n\r\n    npm install recursive-readdir\r\n\r\n## Usage\r\n\r\n```javascript\r\nvar recursive = require(\"recursive-readdir\");\r\n\r\nrecursive(\"some/path\", function (err, files) {\r\n  // `files` is an array of absolute file paths\r\n  console.log(files);\r\n});\r\n```\r\n\r\nIt can also take a list of files to ignore.\r\n\r\n```javascript\r\nvar recursive = require(\"recursive-readdir\");\r\n\r\n// ignore files named \"foo.cs\" or files that end in \".html\".\r\nrecursive(\"some/path\", [\"foo.cs\", \"*.html\"], function (err, files) {\r\n  console.log(files);\r\n});\r\n```\r\n\r\nYou can also pass functions which are called to determine whether or not to\r\nignore a file:\r\n\r\n```javascript\r\nvar recursive = require(\"recursive-readdir\");\r\n\r\nfunction ignoreFunc(file, stats) {\r\n  // `file` is the absolute path to the file, and `stats` is an `fs.Stats`\r\n  // object returned from `fs.lstat()`.\r\n  return stats.isDirectory() && path.basename(file) == \"test\";\r\n}\r\n\r\n// Ignore files named \"foo.cs\" and descendants of directories named test\r\nrecursive(\"some/path\", [\"foo.cs\", ignoreFunc], function (err, files) {\r\n  console.log(files);\r\n});\r\n```\r\n\r\n## Promises\r\nYou can omit the callback and return a promise instead.\r\n\r\n```javascript\r\nreaddir(\"some/path\").then(\r\n  function(files) {\r\n    console.log(\"files are\", files);\r\n  },\r\n  function(error) {\r\n    console.error(\"something exploded\", error);\r\n  }\r\n);\r\n```\r\n\r\nThe ignore strings support Glob syntax via\r\n[minimatch](https://github.com/isaacs/minimatch).\r\n",
   "readmeFilename": "README.md",
+=======
+  "author": "Jamison Dance <jergason@gmail.com> (http://jamisondance.com/)",
+  "name": "recursive-readdir",
+  "description": "Get an array of all files in a directory and subdirectories.",
+  "license": "MIT",
+  "version": "2.2.1",
+>>>>>>> bbd426243481c9ab9d2743b51b5dd9b637a2a699
   "repository": {
     "type": "git",
     "url": "git://github.com/jergason/recursive-readdir.git"
   },
+<<<<<<< HEAD
   "scripts": {
     "test": "mocha test/"
   },
   "version": "2.2.1"
+=======
+  "main": "./index.js",
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "keywords": [
+    "directory",
+    "lister"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "minimatch": "3.0.3"
+  },
+  "devDependencies": {
+    "mocha": "1.14.0"
+  }
+>>>>>>> bbd426243481c9ab9d2743b51b5dd9b637a2a699
 }

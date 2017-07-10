@@ -28,6 +28,7 @@ function readdir(path, options, callback) {
 
   if (!callback) {
     return new Promise(function(resolve, reject) {
+
       readdir(path, options, function(err, data) {
         if (err) {
           reject(err);
