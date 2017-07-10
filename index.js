@@ -1,4 +1,3 @@
-var fs = require("fs");
 var p = require("path");
 var minimatch = require("minimatch");
 
@@ -17,15 +16,19 @@ function toMatcherFunction(ignoreEntry) {
   }
 }
 
-function readdir(path, ignores, callback) {
-  if (typeof ignores == "function") {
-    callback = ignores;
-    ignores = [];
+function readdir(path, options, callback) {
+  options = options || {};
+  options.fs = options.fs || require('fs');
+  options.ignores = options.ignores || [];
+  
+  if (typeof options == "function") {
+    callback = options;
+    options = {};
   }
 
   if (!callback) {
     return new Promise(function(resolve, reject) {
-      readdir(path, ignores || [], function(err, data) {
+      readdir(path, options, function(err, data) {
         if (err) {
           reject(err);
         } else {
@@ -35,11 +38,11 @@ function readdir(path, ignores, callback) {
     });
   }
 
-  ignores = ignores.map(toMatcherFunction);
+  options.ignores = options.ignores.map(toMatcherFunction);
 
   var list = [];
 
-  fs.readdir(path, function(err, files) {
+  options.fs.readdir(path, function(err, files) {
     if (err) {
       return callback(err);
     }
@@ -52,13 +55,13 @@ function readdir(path, ignores, callback) {
 
     files.forEach(function(file) {
       var filePath = p.join(path, file);
-      fs.stat(filePath, function(_err, stats) {
+      options.fs.stat(filePath, function(_err, stats) {
         if (_err) {
           return callback(_err);
         }
 
         if (
-          ignores.some(function(matcher) {
+          options.ignores.some(function(matcher) {
             return matcher(filePath, stats);
           })
         ) {
@@ -70,7 +73,7 @@ function readdir(path, ignores, callback) {
         }
 
         if (stats.isDirectory()) {
-          readdir(filePath, ignores, function(__err, res) {
+          readdir(filePath, options, function(__err, res) {
             if (__err) {
               return callback(__err);
             }
