@@ -20,7 +20,7 @@ function readdir(path, options, callback) {
   options = options || {};
   options.ignores = options.ignores || [];
   options.fs = options.fs || require('fs');
-
+  
   if (typeof options == "function") {
     callback = options;
     options = {};
@@ -28,7 +28,6 @@ function readdir(path, options, callback) {
 
   if (!callback) {
     return new Promise(function(resolve, reject) {
-
       readdir(path, options, function(err, data) {
         if (err) {
           reject(err);
